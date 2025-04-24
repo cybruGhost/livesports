@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Matches</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
+    
+ const firebaseConfig = {
+apiKey: "",
+authDomain: "thcom",
+projectId: "th4",
+storageBucket: "thcom",
+messagingSenderId: "3166",
+appId: "1099f",
+measurementId: "G-",
+};
+    
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    
+        // Optionally log an event to test analytics functionality
+        // Example: Log an event when the page is loaded
+        analytics.logEvent('page_view');
+    </script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        h1 {
+            color: #ffcc00;
+        }
+        h2 {
+            margin-top: 20px;
+            color: #ff6666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background: #222;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #333;
+            text-align: center;
+        }
+        th {
+            background: #333;
+            color: #ffcc00;
+        }
+        td img {
+            width: 30px;
+            height: 30px;
+        }
+        .date-buttons, .past-buttons {
+            margin: 10px 0;
+        }
+        button {
+            background: #ffcc00;
+            border: none;
+            padding: 8px 15px;
+            margin: 5px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff9900;
+        }
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+        .back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #ccb118;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: #3a3a5e;
+}
+
+.back-button i {
+    font-size: 16px;
+}
+
+/* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #121212;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+/* Container */
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* Headings */
+h1 {
+    color: #ffcc00;
+}
+
+h2 {
+    margin-top: 20px;
+    color: #ff6666;
+}
+
+/* Table Styling */
+.table-container {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling on small screens */
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #222;
+    border-radius: 5px;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap; /* Prevents table from breaking layout */
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #333;
+    text-align: center;
+}
+
+th {
+    background: #333;
+    color: #ffcc00;
+}
+
+td img {
+    width: 30px;
+    height: 30px;
+}
+
+/* Buttons */
+.date-buttons, .past-buttons {
+    margin: 10px 0;
+}
+
+button {
+    background: #ffcc00;
+    border: none;
+    padding: 8px 15px;
+    margin: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #ff9900;
+}
+
+/* Error Message */
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+/* Back Button */
+.back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #ccb118;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: #3a3a5e;
+}
+
+.back-button i {
+    font-size: 16px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .table-container {
+        overflow-x: auto; /* Ensures table stays within screen */
+    }
+
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 14px;
+    }
+
+    button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .back-button {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
+    
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-button">
+        <i class="fa fa-arrow-left"></i> Back
+    </a>
+    <div class="container">
+        <h1>⚽ Football Matches</h1>
+    
+        <h2>Upcoming Matches</h2>
+        <div class="date-buttons" id="dateButtons"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Match</th>
+                    <th>Score</th>
+                    <th>Time</th>
+                    <th>League</th>
+                    <th>Team Logos</th>
+                </tr>
+            </thead>
+            <tbody id="matchList">
+                <tr><td colspan="5">Select a date to view matches</td></tr>
+            </tbody>
+        </table>
+    
+        <div class="error" id="errorMessage"></div>
+    
+        <h2>Last Week's Matches</h2>
+        <div class="past-buttons" id="pastButtons"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Match</th>
+                    <th>Final Score</th>
+                    <th>Time</th>
+                    <th>Winner</th>
+                    <th>Team Logos</th>
+                </tr>
+            </thead>
+            <tbody id="pastMatchList">
+                <tr><td colspan="6">Select a date to view past results</td></tr>
+            </tbody>
+        </table>
+    
+        <!-- Latest 20 Games Section -->
+        <h2>Latest 20 Games</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Match</th>
+                    <th>Score</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Team Logos</th>
+                </tr>
+            </thead>
+            <tbody id="latestGamesList">
+                <tr><td colspan="5">Loading latest games...</td></tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        const leagues = ["caf.nations", "uefa.champions", "uefa.europa", "eng.1", "esp.1", "ita.1", "ger.1", "fra.1"];
+        const dateButtons = document.getElementById("dateButtons");
+        const pastButtons = document.getElementById("pastButtons");
+        const matchList = document.getElementById("matchList");
+        const pastMatchList = document.getElementById("pastMatchList");
+        const latestGamesList = document.getElementById("latestGamesList");
+        const errorMessage = document.getElementById("errorMessage");
+    
+        const popularTeams = ["Real Madrid", "Barcelona", "Manchester United", "Liverpool", "Bayern Munich", "Paris Saint-Germain"];
+    
+        function formatDate(date) {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+    
+        function getApiDate(date) {
+            return `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+        }
+    
+        function generateDates() {
+            for (let i = 0; i < 5; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() + i);
+                const button = document.createElement("button");
+                button.innerText = formatDate(date);
+                button.onclick = () => fetchMatches(date, matchList, false);
+                dateButtons.appendChild(button);
+            }
+    
+            for (let i = 1; i <= 5; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const button = document.createElement("button");
+                button.innerText = formatDate(date);
+                button.onclick = () => fetchMatches(date, pastMatchList, true);
+                pastButtons.appendChild(button);
+            }
+        }
+    
+        async function fetchMatches(date, targetTable, isPast) {
+            targetTable.innerHTML = "<tr><td colspan='6'>Loading...</td></tr>";
+            errorMessage.innerHTML = "";
+            const apiDate = getApiDate(date);
+            let allMatches = [];
+    
+            for (const league of leagues) {
+                try {
+                    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${apiDate}`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch data from league: ${league}`);
+                    }
+                    const data = await response.json();
+                    allMatches = allMatches.concat(data.events || []);
+                } catch (error) {
+                    console.error(`Error fetching data for ${league}:`, error);
+                    errorMessage.innerHTML = `Error fetching data: ${error.message}`;
+                }
+            }
+    
+            if (allMatches.length === 0) {
+                targetTable.innerHTML = "<tr><td colspan='6'>No matches found for this date</td></tr>";
+                return;
+            }
+    
+            targetTable.innerHTML = allMatches.map(match => {
+                const team1 = match.competitions[0].competitors[0];
+                const team2 = match.competitions[0].competitors[1];
+                const score1 = team1.score || "N/A";
+                const score2 = team2.score || "N/A";
+                const matchTime = new Date(match.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+                let winner = "Draw";
+                if (isPast) {
+                    if (score1 > score2) {
+                        winner = `${team1.team.displayName} 🏆`;
+                    } else if (score2 > score1) {
+                        winner = `${team2.team.displayName} 🏆`;
+                    }
+                }
+    
+                const isPopularGame = popularTeams.includes(team1.team.displayName) || popularTeams.includes(team2.team.displayName);
+    
+                return `
+                    <tr style="background-color: ${isPopularGame ? '#ffeb3b' : ''};">
+                        <td>${team1.team.displayName} vs ${team2.team.displayName}</td>
+                        <td>${score1} - ${score2}</td>
+                        <td>${matchTime}</td>
+                        <td>${isPast ? winner : "Upcoming"}</td>
+                        <td>
+                            <img src="${team1.team.logo}" alt="${team1.team.displayName}">
+                            <img src="${team2.team.logo}" alt="${team2.team.displayName}">
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+    
+        // Fetch latest 20 games that have already been played
+        async function fetchLatestGames() {
+            latestGamesList.innerHTML = "<tr><td colspan='5'>Loading latest games...</td></tr>";
+            errorMessage.innerHTML = "";
+    
+            let allMatches = [];
+            for (const league of leagues) {
+                try {
+                    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch data from league: ${league}`);
+                    }
+                    const data = await response.json();
+                    allMatches = allMatches.concat(data.events || []);
+                } catch (error) {
+                    console.error(`Error fetching data for ${league}:`, error);
+                    errorMessage.innerHTML = `Error fetching data: ${error.message}`;
+                }
+            }
+    
+            if (allMatches.length === 0) {
+                latestGamesList.innerHTML = "<tr><td colspan='5'>No recent games found</td></tr>";
+                return;
+            }
+    
+            // Filter past games only
+            const pastGames = allMatches.filter(match => new Date(match.date) < new Date());
+    
+            // Get the latest 20 past games
+            const latestGames = pastGames.slice(0, 20);
+            latestGamesList.innerHTML = latestGames.map(match => {
+                const team1 = match.competitions[0].competitors[0];
+                const team2 = match.competitions[0].competitors[1];
+                const score1 = team1.score || "N/A";
+                const score2 = team2.score || "N/A";
+                const matchTime = new Date(match.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+                const isPopularGame = popularTeams.includes(team1.team.displayName) || popularTeams.includes(team2.team.displayName);
+    
+                return `
+                    <tr style="background-color: ${isPopularGame ? '#fa3f16' : ''};">
+                        <td>${team1.team.displayName} vs ${team2.team.displayName}</td>
+                        <td>${score1} - ${score2}</td>
+                        <td>${matchTime}</td>
+                        <td>played</td>
+                        <td>
+                            <img src="${team1.team.logo}" alt="${team1.team.displayName}">
+                            <img src="${team2.team.logo}" alt="${team2.team.displayName}">
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+    
+        generateDates();
+        fetchLatestGames();
+    </script>
+    
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging.js"></script>
+<script src="firebase-messaging-sw.js"></script>
+<script src="firebase.js"></script>
+</body>
+</html>

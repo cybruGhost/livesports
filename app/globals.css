@@ -1,0 +1,340 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 6%;
+    --foreground: 0 0% 98%;
+    --card: 220 20% 9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 220 20% 9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 348 83% 47%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 220 20% 12%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 220 20% 12%;
+    --muted-foreground: 220 10% 70%;
+    --accent: 220 20% 12%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 220 20% 12%;
+    --input: 220 20% 12%;
+    --ring: 348 83% 47%;
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image: radial-gradient(circle at 50% 0%, hsl(348, 83%, 10%) 0%, hsl(220, 20%, 6%) 50%);
+    background-attachment: fixed;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background/50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary/50 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary/70;
+}
+
+/* Premium Card Styles */
+.premium-card {
+  @apply relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-b from-card to-card/80 backdrop-blur-sm transition-all duration-300;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.05) inset, 0 0 20px
+    rgba(255, 0, 85, 0.1);
+}
+
+.premium-card:hover {
+  @apply border-primary/20;
+  box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.05) inset, 0 0 30px
+    rgba(255, 0, 85, 0.15);
+}
+
+.premium-card::before {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 transition-opacity duration-300;
+}
+
+.premium-card:hover::before {
+  @apply opacity-100;
+}
+
+/* Match Card Styles */
+.match-card {
+  @apply relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-b from-card to-card/80 backdrop-blur-sm transition-all duration-300;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.05) inset, 0 0 20px
+    rgba(255, 0, 85, 0.1);
+}
+
+.match-card:hover {
+  @apply transform -translate-y-1 border-primary/20;
+  box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.05) inset, 0 0 30px
+    rgba(255, 0, 85, 0.15);
+}
+
+.match-card .match-header {
+  @apply flex items-center justify-between mb-4 p-2 bg-white/5 rounded-lg transition-colors duration-300;
+}
+
+.match-card:hover .match-header {
+  @apply bg-white/10;
+}
+
+.match-card .match-header .category {
+  @apply text-muted-foreground text-sm font-semibold uppercase tracking-wider opacity-90 transition-all duration-300;
+}
+
+.match-card:hover .match-header .category {
+  @apply text-white opacity-100;
+}
+
+.match-card .match-header .live-text {
+  @apply text-primary text-sm font-semibold uppercase tracking-wider;
+}
+
+.match-card .match-header .date {
+  @apply text-muted-foreground text-sm font-medium italic opacity-80 transition-all duration-300;
+}
+
+.match-card:hover .match-header .date {
+  @apply text-white opacity-100;
+}
+
+/* Sports Box Styles */
+.sports-box {
+  @apply relative h-80 rounded-xl overflow-hidden cursor-pointer transition-all duration-500 bg-cover bg-center;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.05) inset;
+}
+
+.sports-box::before {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-80 transition-opacity duration-300;
+}
+
+.sports-box:hover::before {
+  @apply opacity-100;
+}
+
+.sports-box:hover {
+  @apply transform scale-[1.02];
+  box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.05) inset, 0 0 30px
+    rgba(255, 0, 85, 0.15);
+}
+
+.sports-box h2 {
+  @apply absolute bottom-6 left-6 text-2xl font-bold text-white transition-all duration-300 opacity-90 z-10;
+}
+
+.sports-box:hover h2 {
+  @apply opacity-100 bottom-8 text-primary;
+}
+
+.sports-box .live-badge {
+  @apply absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full z-10;
+}
+
+/* Live Indicator Animation */
+.live-indicator {
+  @apply inline-flex h-2 w-2 rounded-full bg-primary;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+}
+
+/* Premium Button Styles */
+.premium-button {
+  @apply relative overflow-hidden rounded-lg bg-gradient-to-r from-primary to-primary/80 text-white font-medium py-2 px-4 transition-all duration-300;
+  box-shadow: 0 4px 10px -2px rgba(220, 38, 38, 0.5);
+}
+
+.premium-button:hover {
+  @apply transform -translate-y-0.5;
+  box-shadow: 0 6px 15px -3px rgba(220, 38, 38, 0.6);
+}
+
+.premium-button:active {
+  @apply transform translate-y-0;
+  box-shadow: 0 2px 5px -1px rgba(220, 38, 38, 0.6);
+}
+
+.premium-button::after {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 transition-opacity duration-500;
+  transform: translateX(-100%);
+}
+
+.premium-button:hover::after {
+  @apply opacity-100;
+  transform: translateX(100%);
+  transition: transform 0.8s ease, opacity 0.3s ease;
+}
+
+/* Table Styles */
+.standings-table {
+  @apply w-full border-collapse;
+}
+
+.standings-table th {
+  @apply bg-primary/80 text-white p-3 text-left font-bold sticky top-0;
+}
+
+.standings-table td {
+  @apply p-3 border-b border-white/10;
+}
+
+.standings-table tr:hover td {
+  @apply bg-white/10;
+}
+
+.standings-table tr:nth-child(even) {
+  @apply bg-black/20;
+}
+
+.standings-table tr:nth-child(odd) {
+  @apply bg-black/10;
+}
+
+.standings-table tr:first-child td {
+  @apply border-t-0;
+}
+
+.standings-table tr td:first-child {
+  @apply font-bold text-center;
+}
+
+.standings-table tr td:last-child {
+  @apply font-bold text-primary;
+}
+
+/* News Card Styles */
+.news-card {
+  @apply relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-b from-card to-card/80 backdrop-blur-sm transition-all duration-300;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.05) inset;
+}
+
+.news-card:hover {
+  @apply transform -translate-y-1 border-primary/20;
+  box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.05) inset, 0 0 30px
+    rgba(255, 0, 85, 0.15);
+}
+
+.news-card img {
+  @apply w-full h-48 object-cover transition-transform duration-500;
+}
+
+.news-card:hover img {
+  @apply transform scale-105;
+}
+
+/* Glow Effects */
+.glow-text {
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+}
+
+.glow-border {
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+}
+
+/* Particles Container */
+.particles-container {
+  @apply fixed inset-0 pointer-events-none z-[-1];
+}
+
+/* Hero Section */
+.hero-section {
+  @apply relative overflow-hidden;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("/images/hero-bg.jpg") no-repeat
+    center center;
+  background-size: cover;
+}
+
+.hero-section::before {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-r from-primary/30 to-blue-900/30 mix-blend-overlay;
+}
+
+/* Glassmorphism */
+.glass-panel {
+  @apply bg-card/70 backdrop-blur-md border border-white/10 rounded-xl;
+}
+
+/* Animated Gradient Border */
+.gradient-border {
+  position: relative;
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(to right, rgba(255, 0, 85, 0.5), rgba(0, 85, 255, 0.5));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* Feature Card */
+.feature-card {
+  @apply bg-card/70 backdrop-blur-md border border-white/5 rounded-xl p-6 transition-all duration-300;
+}
+
+.feature-card:hover {
+  @apply transform -translate-y-1 border-primary/30;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 30px rgba(255, 0, 85, 0.15);
+}
+
+/* Shimmer Effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 3s infinite;
+}

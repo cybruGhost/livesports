@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sports Dashboard</title>
+    <meta content="#A17FC0" data-react-helmet="true" name="theme-color"/>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/CubeSports/main/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
+    
+ const firebaseConfig = {
+apiKey: "",
+authDomain: "thcom",
+projectId: "th4",
+storageBucket: "thcom",
+messagingSenderId: "3166",
+appId: "1099f",
+measurementId: "G-",
+};
+    
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    
+        // Optionally log an event to test analytics functionality
+        // Example: Log an event when the page is loaded
+        analytics.logEvent('page_view');
+    </script>
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+        }
+    
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #222;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease;
+        }
+    
+        .header:hover {
+            background: #333; /* Darker shade on hover */
+        }
+    
+        .header img {
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+    
+        .header img:hover {
+            transform: rotate(360deg); /* Animation on hover */
+        }
+    
+        .menu-btn {
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+    
+        .menu-btn:hover {
+            transform: scale(1.1);
+        }
+    
+        /* Drawer */
+        .drawer {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #222;
+            padding-top: 60px;
+            transition: left 0.3s ease;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+    
+        .drawer a {
+            display: block;
+            padding: 15px;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background 0.3s ease;
+        }
+    
+        .drawer a:hover {
+            background: #444;
+            padding-left: 20px;
+        }
+    
+        /* Main Container */
+        .container {
+            display: flex;
+            gap: 10px;
+            width: 160%;
+            max-width: 1200px;
+            border-radius: 5px;
+            margin: 20px auto;
+            box-shadow: 0 4px 10px rgba(255, 46, 46, 0.1);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    
+        /* Box Styling */
+        .box {
+            flex: 1;
+            height: 300px;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-size: cover;
+            background-position: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+    
+        .box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* Shadow on hover */
+        }
+    
+        /* Box Heading */
+        .box h2 {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 24px;
+            color: white;
+            transition: opacity 0.3s ease;
+            opacity: 3;  /* Hidden by default */
+        }
+    
+        .box:hover h2 {
+            opacity: 1;  /* Show the title when hovered */
+        }
+    
+        /* Live Stream / Status */
+        .live-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+    
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    
+        /* Live Stream status for hovering on box */
+        .box:hover .live-status {
+            display: none; /* Hide live status on box hover for better clarity */
+        }
+    
+        /* hcontainer Section */
+        .hcontainer {
+            width: 100%;
+            max-width: 1200px;
+            margin: 10px auto;
+            padding: 20px;
+            background: rgba(58, 49, 49, 0.1);  /* Darker background */
+            border-radius: 10px;
+            text-align: center;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+    
+        /* Matches Section */
+        .matches-section {
+            background: rgba(255, 250, 250, 0.15);  /* Slightly darker */
+            padding: 20px;
+            border-radius: 8px;
+            text-align: left;  /* Align text left for better readability */
+            width: 90%;
+            max-width: 500px; /* Ensures consistency for each section */
+            box-sizing: border-box;
+        }
+    
+        /* Header Style */
+        h2 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            font-size: 0.9rem;
+            border: none;
+            background: #221d1c;  /* Darker background */
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(243, 38, 38, 0.3);
+            transition: 0.3s;
+            color: #f8f0f0; /* Darker text for headings */
+            
+        }
+    
+        /* Button Styles */
+        .date-buttons, .past-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 5px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    
+        .date-buttons button, .past-buttons button {
+            padding: 6px 10px;
+            font-size: 0.9rem;
+            border: none;
+            background: #333;  /* Darker background */
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(211, 25, 25, 0.3);
+            transition: 0.3s;
+        }
+    
+        .date-buttons button:hover, .past-buttons button:hover {
+            background: #b9503e;  /* Slightly lighter on hover */
+        }
+    
+        /* Table Styles */
+        table {
+            width: 90%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+    
+        thead {
+            background: #333;  /* Darker header */
+            color: rgb(99, 187, 77);
+        }
+    
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+    
+        tr:nth-child(even) {
+            background: #da5e5e;
+        }
+    
+        /* Image (Team Logos) Styles */
+        img {
+            width: 24px;
+            height: 24px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+    
+        /* Responsive Adjustments */
+        @media (min-width: 768px) {
+            .hcontainer {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+    
+            .matches-section {
+                width: 48%;
+            }
+    
+            img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+    
+        /* Small icon adjustments */
+        .hcontainer .matches-section img {
+            width: 30px;
+            height: 30px;
+        }
+    
+        /* For mobile */
+        @media (max-width: 600px) {
+            .hcontainer {
+                flex-direction: column;
+            }
+    
+            .matches-section {
+                width: 115%;
+                margin-bottom: 20px;
+            }
+        }
+    
+    </style>
+    
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <img src="/images/logo.png" alt="Logo">
+       <div class="flex items-left space-x-3">
+                        <span class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">CubeSports</span>
+                    </div>
+        <button class="menu-btn" onclick="toggleDrawer()">☰</button>
+    </div>
+
+    <!-- Drawer Navigation -->
+    <div class="drawer" id="drawer">
+        <a href="standings.html">Standings</a>
+        <a href="matches scores.html">Match Scores</a>
+        <a href="sportsnews.html">sportnews</a>
+        <a href="https://thecub4.netlify.app">Watch a movie</a>
+    </div>
+
+    <!-- Main Boxes -->
+    <div class="container">
+        <div class="box" id="standingsBox" onclick="window.location.href='standings.html'">
+            <h2>Standings</h2>
+        </div>
+        <div class="box" id="matchesBox" onclick="window.location.href='matches scores.html'">
+            <h2>Match Scores</h2>
+        </div>
+        <div class="box" id="streamBox" onclick="window.location.href='livesports.html'">
+            <h2>Live Stream</h2>
+        </div>
+    </div>
+
+    <!-- hcontainer Section -->
+    <div class="hcontainer">
+          <div class="matches-section">
+                <h2>Upcoming Matches</h2>
+                <div class="date-buttons" id="dateButtons"></div>
+                <div id="upcomingMatches">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Match</th>
+                                <th>Score</th>
+                                <th>Time</th>
+                                <th>status</th>
+                                <th>Team Logos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matchList">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            <div class="matches-section">
+                <h2>Last Week's Matches</h2>
+                <div class="past-buttons" id="pastButtons"></div>
+                <div id="pastMatches">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Match</th>
+                                <th>Final Score</th>
+                                <th>Time</th>
+                                <th>Winner</th>
+                                <th>Team Logos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pastMatchList">
+                            <tr><td colspan="5">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            <div class="error" id="errorMessage"></div>
+        </div>
+        
+
+
+    <script>
+        const leagues = ["eng.1", "esp.1", "ita.1", "ger.1", "fra.1"];
+        const todayhcontainerDiv = document.getElementById("todayhcontainer");
+        const lastWeekhcontainerDiv = document.getElementById("lastWeekhcontainer");
+
+        function toggleDrawer() {
+            let drawer = document.getElementById("drawer");
+            drawer.style.left = drawer.style.left === "0px" ? "-250px" : "0px";
+        }
+
+        function getApiDate(daysAgo = 0) {
+            const date = new Date();
+            date.setDate(date.getDate() - daysAgo);
+            return `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+        }
+
+        async function fetchhcontainer(daysAgo, targetDiv, mandatory = false) {
+            const apiDate = getApiDate(daysAgo);
+            let hcontainer = [];
+
+            for (const league of leagues) {
+                try {
+                    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${apiDate}`);
+                    if (!response.ok) throw new Error(`Failed to fetch ${league}`);
+                    
+                    const data = await response.json();
+                    (data.events || []).forEach(match => {
+                        const team1 = match.competitions[0].competitors[0];
+                        const team2 = match.competitions[0].competitors[1];
+                        if (team1.score > team2.score) {
+                            hcontainer.push(team1.team);
+                        } else if (team2.score > team1.score) {
+                            hcontainer.push(team2.team);
+                        }
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            if (hcontainer.length === 0 && !mandatory) {
+                targetDiv.innerHTML = "<p>No matches today</p>";
+            } else if (hcontainer.length > 0) {
+                targetDiv.innerHTML = hcontainer.map(team => `
+                    <div class="winner">
+                        <img src="${team.logo}" alt="${team.displayName}">
+                        <p>${team.displayName}</p>
+                    </div>
+                `).join("");
+            }
+        }
+
+        async function fetchTopTeams() {
+            let teamImages = [];
+            for (const league of leagues) {
+                try {
+                    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/teams`);
+                    if (!response.ok) throw new Error(`Failed to fetch ${league}`);
+                    
+                    const data = await response.json();
+                    (data.sports[0].leagues[0].teams || []).forEach(team => {
+                        if (team.team && team.team.logos) {
+                            teamImages.push(team.team.logos[0].href);
+                        }
+                    });
+                } catch (error) {
+                    console.error(error);
+                }
+            }
+
+            let index = 0;
+            function changeBackground() {
+                document.getElementById("standingsBox").style.background = `url(${teamImages[index % teamImages.length]}) center/cover`;
+                document.getElementById("matchesBox").style.background = `url(${teamImages[(index + 1) % teamImages.length]}) center/cover`;
+                document.getElementById("streamBox").style.background = `url(${teamImages[(index + 2) % teamImages.length]}) center/cover`;
+                index++;
+            }
+            
+            changeBackground();
+            setInterval(changeBackground, 12000);
+        }
+
+        fetchhcontainer(0, todayhcontainerDiv, false);
+        fetchhcontainer(7, lastWeekhcontainerDiv, true);
+        fetchTopTeams();
+    </script>
+       <script>
+        const dateButtons = document.getElementById("dateButtons");
+        const pastButtons = document.getElementById("pastButtons");
+        const matchList = document.getElementById("matchList");
+        const pastMatchList = document.getElementById("pastMatchList");
+        const errorMessage = document.getElementById("errorMessage");
+    
+        function formatDate(date) {
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            return `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`;
+        }
+    
+        function getApiDate(date) {
+            return `${date.getFullYear()}${(date.getMonth() + 1).toString().padStart(2, "0")}${date.getDate().toString().padStart(2, "0")}`;
+        }
+    
+        function generateDates() {
+            for (let i = 0; i < 5; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() + i);
+                const button = document.createElement("button");
+                button.innerText = formatDate(date);
+                button.onclick = () => fetchMatches(date, matchList, false);
+                dateButtons.appendChild(button);
+            }
+    
+            for (let i = 1; i <= 5; i++) {
+                const date = new Date();
+                date.setDate(date.getDate() - i);
+                const button = document.createElement("button");
+                button.innerText = formatDate(date);
+                button.onclick = () => fetchMatches(date, pastMatchList, true);
+                pastButtons.appendChild(button);
+            }
+        }
+    
+        async function fetchMatches(date, targetTable, isPast) {
+            targetTable.innerHTML = "<tr><td colspan='5'>Loading...</td></tr>";
+            errorMessage.innerHTML = "";
+            const apiDate = getApiDate(date);
+            let allMatches = [];
+    
+            for (const league of leagues) {
+                try {
+                    const response = await fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard?dates=${apiDate}`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch data from league: ${league}`);
+                    }
+                    const data = await response.json();
+                    allMatches = allMatches.concat(data.events || []);
+                } catch (error) {
+                    console.error(`Error fetching data for ${league}:`, error);
+                    errorMessage.innerHTML = `Error fetching data: ${error.message}`;
+                }
+            }
+    
+            if (allMatches.length === 0) {
+                targetTable.innerHTML = "<tr><td colspan='5'>No matches found for this date</td></tr>";
+                return;
+            }
+    
+            targetTable.innerHTML = allMatches.map(match => {
+                const team1 = match.competitions[0].competitors[0];
+                const team2 = match.competitions[0].competitors[1];
+                const score1 = team1.score || "N/A";
+                const score2 = team2.score || "N/A";
+                const matchTime = new Date(match.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    
+                let winner = "Draw";
+                if (isPast) {
+                    if (score1 > score2) {
+                        winner = `${team1.team.displayName} 🏆`;
+                    } else if (score2 > score1) {
+                        winner = `${team2.team.displayName} 🏆`;
+                    }
+                }
+    
+                return `
+                    <tr>
+                        <td>${team1.team.displayName} vs ${team2.team.displayName}</td>
+                        <td>${score1} - ${score2}</td>
+                        <td>${matchTime}</td>
+                        <td>${isPast ? winner : "Upcoming"}</td>
+                        <td>
+                            <img src="${team1.team.logo}" alt="${team1.team.displayName}">
+                            <img src="${team2.team.logo}" alt="${team2.team.displayName}">
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+    
+        // Auto-load today's matches
+        window.onload = () => {
+            const today = new Date();
+            fetchMatches(today, matchList, false); // Load upcoming matches for today
+            const yesterday = new Date();
+            yesterday.setDate(today.getDate() - 1);
+            fetchMatches(yesterday, pastMatchList, true); // Load yesterday's past matches
+            generateDates();
+        };
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging.js"></script>
+    <script src="firebase-messaging-sw.js"></script>
+    <script src="firebase.js"></script>
+
+</body>
+</html>

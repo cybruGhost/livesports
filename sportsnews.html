@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football News & Updates</title>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
+    
+ const firebaseConfig = {
+apiKey: "",
+authDomain: "thcom",
+projectId: "th4",
+storageBucket: "thcom",
+messagingSenderId: "3166",
+appId: "1099f",
+measurementId: "G-",
+};
+    
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    
+        // Optionally log an event to test analytics functionality
+        // Example: Log an event when the page is loaded
+        analytics.logEvent('page_view');
+    </script>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #121212;
+            margin: 0;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #00aaff;
+        }
+        h2 {
+            border-bottom: 2px solid #00aaff;
+            padding-bottom: 5px;
+            color: #00aaff;
+        }
+        .news-grid, .transfer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .news-article, .transfer-article {
+            background: #252525;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .news-article:hover, .transfer-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        .news-article img, .transfer-article img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .news-article h3, .transfer-article h3 {
+            font-size: 18px;
+            margin: 10px 0;
+            color: #ffffff;
+        }
+        .news-article p, .transfer-article p {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin-bottom: 10px;
+        }
+        .news-article a, .transfer-article a {
+            display: inline-block;
+            padding: 8px 12px;
+            background: #00aaff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .news-article a:hover, .transfer-article a:hover {
+            background: #0088cc;
+        }
+        .live-match {
+            background: #252525;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 5px solid #00aaff;
+        }
+        .back-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #44a537;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: #3a3a5e;
+}
+
+.back-button i {
+    font-size: 16px;
+}
+
+    </style>
+    
+</head>
+<body>
+
+<a href="index.html" class="back-button">
+    <i class="fa fa-arrow-left"></i> Back
+</a>
+
+    <div class="container">
+       
+    </div>
+        <h1>⚽ Football News & Live Updates</h1>
+        <h2>Transfer News</h2>
+        <div id="transfers" class="transfer-grid"></div>
+
+
+        <h2>Latest News</h2>
+        <div id="news" class="news-grid"></div>
+        <h2>Live Match Updates</h2>
+        <div id="live-matches"></div>
+
+    
+
+
+    <script>
+        const leagues = ["caf.nations", "uefa.champions", "uefa.europa", "eng.1", "esp.1", "ita.1"];
+
+        // Fetch general news
+        const fetchNews = async () => {
+            let newsContainer = document.getElementById("news");
+
+            try {
+                let newsPromises = leagues.map(league =>
+                    fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/news`)
+                        .then(res => res.json())
+                        .then(data => data.articles || [])
+                );
+
+                let newsData = (await Promise.all(newsPromises)).flat();
+
+                newsData.forEach(article => {
+                    let articleDiv = document.createElement("div");
+                    articleDiv.classList.add("news-article");
+                    articleDiv.innerHTML = `
+                        <img src="${article.images?.[0]?.url || 'https://via.placeholder.com/300'}" alt="News Image">
+                        <h3>${article.headline}</h3>
+                        <p>${article.description || "No description available."}</p>
+                        <a href="${article.links.web.href}" target="_blank">Read more</a>
+                    `;
+                    newsContainer.appendChild(articleDiv);
+                });
+            } catch (error) {
+                console.error("Error fetching news:", error);
+            }
+        };
+
+        // Fetch transfer news
+        const fetchTransfers = async () => {
+            let transferContainer = document.getElementById("transfers");
+
+            try {
+                let transferPromises = leagues.map(league =>
+                    fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/news`)
+                        .then(res => res.json())
+                        .then(data => (data.articles || []).filter(article => article.headline.toLowerCase().includes("transfer")))
+                );
+
+                let transferData = (await Promise.all(transferPromises)).flat();
+
+                transferData.forEach(article => {
+                    let articleDiv = document.createElement("div");
+                    articleDiv.classList.add("transfer-article");
+                    articleDiv.innerHTML = `
+                        <img src="${article.images?.[0]?.url || 'https://via.placeholder.com/300'}" alt="Transfer Image">
+                        <h3>${article.headline}</h3>
+                        <p>${article.description || "No description available."}</p>
+                        <a href="${article.links.web.href}" target="_blank">Read more</a>
+                    `;
+                    transferContainer.appendChild(articleDiv);
+                });
+            } catch (error) {
+                console.error("Error fetching transfers:", error);
+            }
+        };
+
+        // Fetch live matches
+        const fetchLiveMatches = async () => {
+            let matchesContainer = document.getElementById("live-matches");
+
+            try {
+                let matchPromises = leagues.map(league =>
+                    fetch(`https://site.api.espn.com/apis/site/v2/sports/soccer/${league}/scoreboard`)
+                        .then(res => res.json())
+                        .then(data => data.events || [])
+                );
+
+                let matches = (await Promise.all(matchPromises)).flat();
+
+                matches.forEach(match => {
+                    let matchDiv = document.createElement("div");
+                    matchDiv.classList.add("live-match");
+                    matchDiv.innerHTML = `
+                        <h3>${match.name}</h3>
+                        <p>Score: ${match.competitions[0].score || "TBD"}</p>
+                        <p>Time: ${match.status.type.detail}</p>
+                    `;
+                    matchesContainer.appendChild(matchDiv);
+                });
+            } catch (error) {
+                console.error("Error fetching live matches:", error);
+            }
+        };
+
+        // Call functions to fetch data
+        fetchNews();
+        fetchTransfers();
+        fetchLiveMatches();
+    </script>
+</body>
+</html>

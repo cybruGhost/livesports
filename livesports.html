@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Sports - CubeSports</title>
+    <meta content="CubeSports - Live Sports" property="og:title"/>
+    <meta content="Watch live sports streams for free. CubeSports breaks down the paywall, ensuring that quality content is accessible to everyone." property="og:description"/>
+    <meta content="https://thecub4.netlify.app/CubeSportstv" property="og:url"/>
+    <meta content="https://raw.githubusercontent.com/main/logo.png" property="og:image"/>
+    <meta content="#A17FC0" data-react-helmet="true" name="theme-color"/>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/CubeSports/main/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.10.3/cdn.min.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-analytics.js";
+    
+ const firebaseConfig = {
+apiKey: "",
+authDomain: "thcom",
+projectId: "th4",
+storageBucket: "thcom",
+messagingSenderId: "3166",
+appId: "1099f",
+measurementId: "G-",
+};
+    
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+    
+        // Optionally log an event to test analytics functionality
+        // Example: Log an event when the page is loaded
+        analytics.logEvent('page_view');
+    </script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+
+    /* Netflix-inspired color palette */
+    :root {
+        --netflix-red: #e50914;
+        --netflix-red-dark: #b20710;
+        --netflix-black: #141414;
+        --netflix-white: #e5e5e5;
+        --netflix-gray: #808080;
+        --netflix-glass: rgba(20, 20, 20, 0.9); /* Increased opacity for better visibility */
+        --netflix-glass-light: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Glassmorphism effect with better visibility */
+    .glass-effect {
+        background: var(--netflix-glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--netflix-glass-light);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Cards with glassy effect and hover animation */
+    .match-card {
+        background: var(--netflix-glass);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--netflix-glass-light);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .match-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 12px 40px rgba(229, 9, 20, 0.6); /* Glow effect on hover */
+        border-color: var(--netflix-red);
+    }
+
+    /* Poster background opacity */
+    .match-card .relative div {
+        opacity: 70.2; /* Reduced opacity for better contrast */
+        transition: opacity 0.3s ease;
+    }
+
+    .match-card:hover .relative div {
+        opacity: 60.3; /* Slightly more visible on hover */
+    }
+
+    /* Ensure text and details are clearly visible */
+    .match-card .p-4 {
+        position: relative;
+        z-index: 1; /* Bring content to the front */
+    }
+
+    .match-card span {
+        color: var(--netflix-white);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); /* Stronger shadow for better readability */
+    }
+/* Match Header Container */
+.match-card .match-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem; /* 16px */
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.05); /* Slight background for contrast */
+    border-radius: 8px;
+    transition: background 0.3s ease;
+}
+
+/* Hover effect for the header */
+.match-card:hover .match-header {
+    background: rgba(255, 255, 255, 0.1); /* Brighter background on hover */
+}
+
+/* Category Text */
+.match-card .match-header .category {
+    color: var(--netflix-gray);
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.9;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover effect for category text */
+.match-card:hover .match-header .category {
+    color: var(--netflix-white);
+    opacity: 1;
+animation: pulse 1.5s infinite;
+}
+
+/* Live Text */
+.match-card .match-header .live-text {
+    color: var(--netflix-red);
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Date Text */
+.match-card .match-header .date {
+    color: var(--netflix-gray);
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    font-style: italic;
+    opacity: 0.8;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover effect for date text */
+.match-card:hover .match-header .date {
+    color: var(--netflix-white);
+    opacity: 1;
+}
+
+
+    /* Buttons with gradient and hover effects */
+    .netflix-button {
+        background: linear-gradient(45deg, var(--netflix-red), var(--netflix-red-dark));
+        color: var(--netflix-white);
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3);
+    }
+
+    .netflix-button::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 300%;
+        height: 300%;
+        background: rgba(255, 255, 255, 0.3);
+        transform: translate(-50%, -50%) rotate(45deg);
+        transition: all 0.5s ease;
+        opacity: 0;
+    }
+
+    .netflix-button:hover::after {
+        opacity: 1;
+        transform: translate(-50%, -50%) rotate(0);
+    }
+
+    .netflix-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5);
+    }
+
+    /* Live indicator with pulse animation */
+    .live-indicator {
+        background: var(--netflix-red);
+        color: var(--netflix-white);
+        padding: 5px 15px;
+        border-radius: 40px;
+        font-size: 0.9rem;
+        animation: pulse 1.5s infinite;
+        box-shadow: 0 0 10px rgba(41, 253, 51, 0.5);
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.8; transform: scale(0.95); }
+        50% { opacity: 1; transform: scale(1); }
+        100% { opacity: 0.8; transform: scale(0.95); }
+    }
+    /* Popular Toggle Button */
+.netlix-button {
+    background: linear-gradient(45deg, var(--netflix-red), var(--netflix-red-dark));
+    color: var(--netflix-white);
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(141, 9, 229, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* 8px */
+}
+
+.netlix-button::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%) rotate(45deg);
+    transition: all 0.5s ease;
+    opacity: 0;
+}
+
+.netlix-button:hover::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0);
+}
+
+.netlix-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(42, 223, 183, 0.5);
+}
+
+.netflix-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 15px rgba(181, 229, 9, 0.3);
+}
+
+/* Icon Styling */
+.netlix-button svg {
+    width: 1.25rem; /* 20px */
+    height: 1.25rem; /* 20px */
+    stroke-width: 2;
+    transition: transform 0.3s ease;
+}
+
+.netlix-button:hover svg {
+    transform: scale(1.1);
+}
+
+/* Text Styling */
+.netlix-button span {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+    /* Select dropdowns with glassy effect */
+    select {
+        background: var(--netflix-glass);
+        color: var(--netflix-white);
+        border: 1px solid var(--netflix-glass-light);
+        border-radius: 8px;
+        padding: 0.5rem 2rem 0.5rem 1rem;
+        appearance: none;
+        transition: all 0.3s ease;
+    }
+
+    select:hover {
+        background: rgba(20, 20, 20, 0.95); /* Darker on hover */
+        border-color: var(--netflix-red);
+    }
+
+    select:focus {
+        outline: none;
+        border-color: var(--netflix-red);
+        box-shadow: 0 0 10px rgba(229, 9, 20, 0.5);
+    }
+
+    /* Custom dropdown arrow */
+    .relative svg {
+        color: var(--netflix-gray);
+    }
+
+    /* No matches message */
+    .text-center.py-12 {
+        color: var(--netflix-gray);
+    }
+/* player styles */
+  /* Glassmorphism effect */
+  .glass-effect {
+        background: rgba(20, 20, 20, 0.9); /* Semi-transparent black */
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Netflix-inspired color palette */
+    :root {
+        --netflix-red: #e50914;
+        --netflix-red-dark: #b20710;
+        --netflix-black: #141414;
+        --netflix-white: #e5e5e5;
+        --netflix-gray: #808080;
+    }
+
+    /* Buttons with gradient and hover effects */
+    .netflix-button {
+        background: linear-gradient(45deg, var(--netflix-red), var(--netflix-red-dark));
+        color: var(--netflix-white);
+        padding: 0.75rem 2rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(206, 196, 197, 0.3);
+    }
+
+    .netflix-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5);
+    }
+.back-button {
+    position: left;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #1e1e2e;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: #3a3a5e;
+}
+
+.back-button i {
+    font-size: 16px;
+}
+
+    </style>
+</head>
+<body class="bg-red-800 text-white min-h-screen" x-data="sportsApp()">
+    <div x-show="localStorage.getItem('showParticles') !== 'false'" id="particles-js" class="fixed inset-0 pointer-events-none z-[-1]"></div>
+
+    <!-- navigation -->
+    <nav class="fixed w-full z-50 glass-effect">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4 md:space-x-8">
+                    <div class="flex items-center space-x-3">
+                        <img src="/images/logo.png" alt="CubeSports Logo" class="h-8 w-8 md:h-10 md:w-10">
+                        <span class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-violet-800">CubeSports</span>
+                    </div>
+                 
+                    <a href="index.html" class="back-button">
+                        <i class="fa fa-arrow-left"></i> Back
+                    </a>
+                    <!-- mobile menu button -->
+                    <button @click="mobileMenu = !mobileMenu" class="md:hidden text-gray-300 hover:text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- mobile menu -->
+            <div x-show="mobileMenu" 
+                x-transition:enter="transition ease-out duration-200"
+                x-transition:enter-start="opacity-0 transform -translate-y-2"
+                x-transition:enter-end="opacity-100 transform translate-y-0"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100 transform translate-y-0"
+                x-transition:leave-end="opacity-0 transform -translate-y-2"
+                class="md:show mt-4 pb-4">
+            
+                    <a href="settings.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors flex items-center space-x-2">
+                        <span>Settings</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </a>
+                    <a href="cub4.html" target="_blank" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors">Movies ?</a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+<!-- Main Content -->
+<div class="pt-24 pb-12 px-6">
+    <div class="container mx-auto">
+        <!-- Notice Banner -->
+        <div class="glass-effect text-center p-4 rounded-lg mb-4 z-10">
+            <strong class="text-netflix-red">Notice:</strong> This page is subject to change and is currently experimental. I also don't have expertise in sports, so there may be errors or inaccuracies.
+        </div>
+
+        <!-- Filters -->
+        <div class="mb-8 space-y-4">
+            <div class="flex flex-wrap gap-4 items-center">
+                <!-- Sports Filter -->
+                <div class="relative">
+                    <select x-model="selectedSport"
+                            @change="filterMatches()"
+                            class="glass-effect text-netflix-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-netflix-gray transition-colors duration-300 focus:ring-2 focus:ring-netflix-red focus:outline-none">
+                        <option value="">All Sports</option>
+                        <template x-for="sport in sports" :key="sport.id">
+                            <option :value="sport.id" x-text="sport.name"></option>
+                        </template>
+                    </select>
+                    <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-netflix-gray" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Match Type Filter -->
+                <div class="relative">
+                    <select x-model="matchType"
+                            @change="loadMatches()"
+                            class="glass-effect text-netflix-white rounded-lg px-4 py-2 pr-8 appearance-none hover:bg-netflix-gray transition-colors duration-300 focus:ring-2 focus:ring-netflix-red focus:outline-none">
+                            <option value="live">Live Matches</option>
+                            <option value="today">Today's Matches</option>
+                            <option value="all">All Matches</option>
+                    </select>
+                    <div class="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-netflix-gray" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </div>
+                </div>
+                <!-- Popular Toggle -->
+                <button @click="togglePopular()" class="netlix-button">
+                    <span class="flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                        </svg>
+                        <span x-text="showPopular ? 'Show All' : 'Popular'"></span>
+                    </span>
+                </button>
+                <!--standings-->
+                <a href="standings.html" class="px-4 py-2 hover:bg-gray-800 rounded-lg transition-colors flex items-center space-x-2">
+                    <span>Table Standings</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 5 112.573 1.034c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 051.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.628 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14a3 3 0 11-6 0 3 3 2 016 0z" />
+                    </svg>
+                </a>
+
+        <!-- Matches Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <template x-for="match in filteredMatches" :key="match.id">
+                <div class="match-card glass-effect">
+                    <!-- Poster Background -->
+                    <div class="relative">
+                        <template x-if="match.poster">
+                            <div class="absolute inset-0 bg-cover bg-center opacity-20"
+                                 :style="'background-image: url(https://streamed.su/api/images/proxy/' + match.poster + '.webp)'">
+                            </div>
+                        </template>
+                    </div>
+                    <div class="p-4 relative">
+                        <!-- Match Header -->
+                        <div class="match-header">
+                            <!-- Category -->
+                            <span class="category" x-text="match.category"></span>
+                            <template x-if="matchType === 'live'">
+                                <span class="flex items-center space-x-1">
+                                    <span class="live-indicator"></span>
+                                    <span class="text-netflix-red text-sm">LIVE</span>
+                                </span>
+                            </template>
+                            <template x-if="matchType !== 'live'">
+                                <span class="text-sm text-netflix-gray" x-text="formatDate(match.date)"></span>
+                            </template>
+                        </div>
+  
+
+                        <!-- Teams -->
+                        <div class="flex items-center justify-between mb-4">
+                            <template x-if="match.teams">
+                                <div class="flex items-center justify-between w-full">
+                                    <!-- Home Team -->
+                                    <div class="flex items-center space-x-2">
+                                        <img :src="match.teams.home?.badge ? 'https://streamed.su/api/images/badge/' + match.teams.home.badge + '.webp' : 'logo.png'" 
+                                             :alt="match.teams.home?.name"
+                                             class="w-8 h-8 object-contain"
+                                             @error="$event.target.src = '/images/logo.png'">
+                                        <span x-text="match.teams.home?.name"></span>
+                                    </div>
+                                    <span class="text-netflix-gray">vs</span>
+                                    <!-- Away Team -->
+                                    <div class="flex items-center space-x-2">
+                                        <span x-text="match.teams.away?.name"></span>
+                                        <img :src="match.teams.away?.badge ? 'https://streamed.su/api/images/badge/' + match.teams.away.badge + '.webp' : 'logo.png'" 
+                                             :alt="match.teams.away?.name"
+                                             class="w-8 h-8 object-contain"
+                                             @error="$event.target.src = '/images/logo.png'">
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+
+                        <!-- Watch Button -->
+                        <button @click="openStream(match)"
+                                class="netflix-button w-full">
+                            <span class="flex items-center justify-center space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <span>Watch Stream</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- No Matches Message -->
+        <div x-show="filteredMatches.length === 0" class="text-center py-12">
+            <div class="text-netflix-gray">No matches available</div>
+        </div>
+    </div>
+</div>
+  <!-- Stream Modal -->
+<div x-show="showModal" 
+class="fixed inset-0 z-50 overflow-auto bg-black bg-opacity-90 flex items-center justify-center"
+@click.away="closeModal()"
+x-transition:enter="transition ease-out duration-300"
+x-transition:enter-start="opacity-0"
+x-transition:enter-end="opacity-100"
+x-transition:leave="transition ease-in duration-200"
+x-transition:leave-start="opacity-100"
+x-transition:leave-end="opacity-0">
+<div class="glass-effect rounded-lg w-full max-w-4xl p-6 relative">
+   <!-- Close Button -->
+   <button @click="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-netflix-red transition-colors duration-300">
+       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg>
+   </button>
+
+   <!-- Modal Header -->
+   <div class="flex items-center justify-between mb-6">
+       <h2 class="text-2xl font-bold text-netflix-white" x-text="selectedMatch?.title || 'Stream'"></h2>
+   </div>
+
+   <!-- Stream Selection -->
+   <div class="mb-6">
+       <div class="flex flex-wrap gap-3">
+           <template x-for="source in availableStreams" :key="source.id">
+               <button @click="selectStream(source)"
+                       class="px-5 py-3 rounded-lg transition-all duration-300 flex items-center justify-center"
+                       :class="selectedStream?.id === source.id ? 
+                              'bg-netflix-red hover:bg-netflix-red-dark shadow-lg' : 
+                              'bg-netflix-black hover:bg-netflix-gray shadow-md'">
+                   <span class="text-netflix-white font-medium" x-text="source.source"></span>
+                   <template x-if="source.hd">
+                       <span class="ml-2 text-xs bg-netflix-red text-netflix-white px-2 py-1 rounded-full">HD</span>
+                   </template>
+               </button>
+           </template>
+       </div>
+   </div>
+
+   <!-- Stream Player -->
+   <template x-if="selectedStream">
+       <div class="relative pt-[56.25%] rounded-lg overflow-hidden shadow-2xl" id="streamContainer">
+           <iframe :src="selectedStream.embedUrl"
+                   class="absolute inset-0 w-full h-full rounded-lg"
+                   frameborder="0"
+                   allowfullscreen
+                   x-ref="streamFrame"></iframe>
+       </div>
+   </template>
+
+   <!-- Additional Info (Optional) -->
+   <div class="mt-6 text-netflix-gray">
+       <p class="text-sm">USE BRAVE.Stream quality may vary based on your internet connection. For the best experience, use an HD stream.</p>
+   </div>
+</div>
+</div>
+
+    <script>
+        function sportsApp() {
+            return {
+                sports: [],
+                matches: [],
+                filteredMatches: [],
+                selectedSport: '',
+                matchType: 'live',
+                showPopular: false,
+                mobileMenu: false,
+                showModal: false,
+                selectedMatch: null,
+                selectedStream: null,
+                availableStreams: [],
+
+                async init() {
+                    await this.loadSports();
+                    await this.loadMatches();
+                },
+
+                async loadSports() {
+                    try {
+                        const response = await fetch('https://streamed.su/api/sports');
+                        this.sports = await response.json();
+                    } catch (error) {
+                        console.error('Error loading sports:', error);
+                        this.sports = [];
+                    }
+                },
+
+                async loadMatches() {
+                let endpoint = '';
+                switch (this.matchType) {
+                    case 'live':
+                        endpoint = this.showPopular ? '/api/matches/live/popular' : '/api/matches/live';
+                        break;
+                    case 'today':
+                        endpoint = this.showPopular ? '/api/matches/all-today/popular' : '/api/matches/all-today';
+                        break;
+                    case 'upcoming':
+                        endpoint = this.showPopular ? '/api/matches/upcoming/popular' : '/api/matches/upcoming';
+                        break;
+                    case 'all':
+                        endpoint = this.showPopular ? '/api/matches/all/popular' : '/api/matches/all';
+                        break;
+                    default:
+                        console.error('Invalid match type:', this.matchType);
+                        endpoint = '/api/matches/live'; // Fallback to live matches
+                        break;
+                }
+
+                try {
+                    const response = await fetch(`https://streamed.su${endpoint}`);
+                    if (!response.ok) throw new Error(`Failed to fetch matches: ${response.statusText}`);
+                    this.matches = await response.json();
+                    this.filterMatches(); // Apply filters after loading matches
+                } catch (error) {
+                    console.error('Error loading matches:', error);
+                    this.matches = []; // Clear matches on error
+                    this.filterMatches();
+                }
+            },
+
+                filterMatches() {
+                    this.filteredMatches = this.selectedSport
+                        ? this.matches.filter(match => match.category === this.selectedSport)
+                        : this.matches;
+                },
+
+                togglePopular() {
+                    this.showPopular = !this.showPopular;
+                    this.loadMatches();
+                },
+
+                formatDate(timestamp) {
+                    return new Date(timestamp).toLocaleString();
+                },
+
+                closeModal() {
+                    this.showModal = false;
+                    this.selectedStream = null;
+                    this.selectedMatch = null;
+                    this.availableStreams = [];
+                    
+                    const container = document.getElementById('streamContainer');
+                    if (container) {
+                        container.innerHTML = '';
+                    }
+                },
+
+                async openStream(match) {
+                    if (this.showModal) {
+                        this.closeModal();
+                    }
+
+                    this.selectedMatch = match;
+                    this.selectedStream = null;
+                    this.availableStreams = [];
+                    this.showModal = true;
+
+                    for (const source of match.sources) {
+                        try {
+                            const response = await fetch(`https://streamed.su/api/stream/${source.source}/${source.id}`);
+                            const streams = await response.json();
+                            this.availableStreams = [...this.availableStreams, ...streams];
+                        } catch (error) {
+                            console.error(`Error loading stream for ${source.source}:`, error);
+                        }
+                    }
+
+                    if (this.availableStreams.length > 0) {
+                        this.selectStream(this.availableStreams[0]);
+                    }
+                },
+
+                selectStream(stream) {
+                    const container = document.getElementById('streamContainer');
+                    if (container) {
+                        container.innerHTML = '';
+                    }
+                    
+                    this.selectedStream = stream;
+                    
+                    this.$nextTick(() => {
+                    });
+                }
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS('particles-js', {
+            particles: {
+                number: {
+                    value: 80,
+                    density: {
+                        enable: true,
+                        value_area: 800
+                    }
+                },
+                color: {
+                    value: '#f9f6f6'
+                },
+                shape: {
+                    type: 'circle'
+                },
+                opacity: {
+                    value: 0.2,
+                    random: true,
+                    animation: {
+                        enable: true,
+                        speed: 1,
+                        opacity_min: 0.1,
+                        sync: false
+                    }
+                },
+                size: {
+                    value: 3,
+                    random: true,
+                    animation: {
+                        enable: true,
+                        speed: 2,
+                        size_min: 0.1,
+                        sync: false
+                    }
+                },
+                line_linked: {
+                    enable: true,
+                    distance: 150,
+                    color: '#f9f6f6',
+                    opacity: 0.2,
+                    width: 1
+                },
+                move: {
+                    enable: true,
+                    speed: 1,
+                    direction: 'none',
+                    random: true,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: true,
+                }
+            },
+            interactivity: {
+                detect_on: 'window',
+                events: {
+                    onhover: {
+                        enable: true,
+                        mode: 'grab'
+                    },
+                    onclick: {
+                        enable: true,
+                        mode: 'push'
+                    },
+                    resize: true
+                },
+                modes: {
+                    grab: {
+                        distance: 140,
+                        line_linked: {
+                            opacity: 0.5
+                        }
+                    },
+                    push: {
+                        particles_nb: 4
+                    }
+                }
+            },
+            retina_detect: true
+        });
+
+        window.addEventListener('appearance-changed', () => {
+            const particlesEl = document.getElementById('particles-js');
+            if (localStorage.getItem('showParticles') === 'false') {
+                particlesEl.style.display = 'none';
+            } else {
+                particlesEl.style.display = 'block';
+            }
+        });
+    </script>
+       <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js"></script>
+       <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-messaging.js"></script>
+       <script src="firebase-messaging-sw.js"></script>
+       <script src="firebase.js"></script>
+</body>
+</html>
