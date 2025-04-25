@@ -1,5 +1,3 @@
----
-
 ```markdown
 # 🏟️ LiveSports Web App
 
