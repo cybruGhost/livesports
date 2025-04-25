@@ -1,5 +1,5 @@
 ```markdown
-# 🏟️ LiveSports Web App
+# 🏟️ CubeSports Web App
 
 **LiveSports** is a dynamic, mobile-first sports web application built using **React Native Web** and **Next.js**. Inspired by the static prototype at [CubeSports](https://cubesports.netlify.app), this app is designed to deliver real-time match data, live scores, fixtures, team news, and stats to fans across devices.
 
