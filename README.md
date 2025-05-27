@@ -1,47 +1,44 @@
-# 🏟️ CubeSports - Live Football Updates Web App
+# 🏟️ CubeSports - Real-Time Football Web App
 
-[![Page Views](https://komarev.com/ghpvc/?username=cybruGhost&repo=livesports&color=blue)](https://github.com/cybruGhost/livesports)
+[![Page Views](https://komarev.com/ghpvc/?username=cybruGhost&repo=livesports&color=brightgreen)](https://github.com/cybruGhost/livesports)
 
-**CubeSports** is a responsive web application for displaying football match data — including live scores, fixtures, and basic stats. It is built with **Next.js**, aiming to serve as a foundational platform that can later be extended with real-time APIs.
+**CubeSports** is a responsive web application built with **Next.js** for delivering **real-time football data**, including live scores, match fixtures, league standings, and more. Designed for both desktop and mobile users, it offers a clean, intuitive interface to stay up to date with the football world.
 
 🌐 **Live site**: [https://livesports-six.vercel.app](https://livesports-six.vercel.app)
 
 ---
 
-## ⚽ Features
+## ⚽ Live Features
 
-- ✅ Match listings with teams and scores
-- ✅ Fixtures and results
-- ✅ Basic team and match info
-- ✅ Mobile-friendly layout
-- ❌ No live API yet (uses static or sample JSON)
-- ❌ No user login or notifications (for now)
+- 📺 **Live Scores** — Get updated match results in real time.
+- 🗓️ **Fixtures** — View upcoming matches by date or league.
+- 🧮 **Standings** — Access current league tables (Premier League, La Liga, etc).
+- 🧑‍🤝‍🧑 **Teams** — Explore club details and stats.
+- 💡 **Responsive UI** — Optimized for both desktop and mobile users.
 
 ---
 
 ## 🧱 Tech Stack
 
-| Layer       | Technology          |
-|-------------|----------------------|
-| Framework   | Next.js (React 18/19)|
-| Styling     | Custom CSS           |
-| Data        | Static JSON (sample) |
-| Deployment  | Vercel               |
-
-> ❗ *Tailwind is not installed. Styling is done with regular CSS.*
+| Layer        | Technology         |
+|--------------|--------------------|
+| Framework    | Next.js (App Router) |
+| Data Source  | External Football API |
+| Styling      | Custom CSS (No Tailwind) |
+| Hosting      | Vercel              |
 
 ---
 
 ## 📁 Folder Structure
 
 livesports/
-├── app/ # App routes (Next.js)
-│ ├── matches/ # Matches page
-│ └── home/ # Homepage
-├── components/ # Reusable components (e.g., MatchCard)
-├── public/ # Static assets
-├── styles/ # Global CSS
-├── data/ # Static JSON files
+├── app/ # App routes (matches, home, etc.)
+│ ├── matches/ # Live match data views
+│ └── standings/ # League standings pages
+├── components/ # UI components (e.g., MatchCard, NavBar)
+├── public/ # Images, icons
+├── styles/ # CSS files
+├── data/ # Local fallback (optional)
 └── README.md
 
 
@@ -63,53 +60,41 @@ npm install --legacy-peer-deps
 
 npm run dev
 
-Visit http://localhost:3000
+Then visit: http://localhost:3000
 🔧 Scripts
 Command	Description
-npm run dev	Run the app in development mode
-npm run build	Build the production version (if available)
-npm start	Start production server
+npm run dev	Start dev server
+npm run build	Build the app for production
+npm start	Start the production server
 
-    Add "build": "next build" to your package.json if missing.
+    Note: Ensure build script exists in your package.json:
 
-📊 Example Match Data (data/matches.json)
-
-[
-  {
-    "id": 1,
-    "homeTeam": "Arsenal",
-    "awayTeam": "Man United",
-    "score": "2 - 1",
-    "status": "FT",
-    "date": "2025-04-25"
-  }
-]
+"scripts": {
+  "dev": "next dev",
+  "start": "next start",
+  "build": "next build"
+}
 
 📌 Known Issues
 
-    Some CSS may break in deployment due to missing styles or invalid build steps.
+    Ensure all stylesheets are loaded properly in production. CSS bugs may occur if imports are missed.
 
-    React 19 may cause conflicts with some packages (e.g., vaul).
+    If using React 19, some external packages (e.g. vaul) may not yet support it fully.
 
-    Deployment without next build causes runtime errors.
+    Always test styling after deploying to Vercel; production may behave differently from local dev.
 
-📦 Deployment Tips
+🔒 Data & API
 
-If deploying to Vercel:
+    The app pulls live football data using a backend API service (you can specify the provider if public).
 
-    Ensure you have a build script in package.json:
+    No sensitive data is exposed on the frontend.
 
-    "scripts": {
-      "dev": "next dev",
-      "start": "next start",
-      "build": "next build"
-    }
-
-    Ensure .next/ is not deleted before building.
+    Can be extended to support authenticated user actions and preferences.
 
 📮 Contributing
 
-Pull requests are welcome. Please open an issue first to discuss what you would like to change.
+Got improvements? Fork, branch, and make a pull request.
+Make sure your edits align with the current structure and style.
 📜 License
 
-MIT
+This project is open source — MIT License
