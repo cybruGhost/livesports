@@ -4,7 +4,7 @@
 
 **CubeSports** is a responsive web application built with **Next.js** for delivering **real-time football data**, including live scores, match fixtures, league standings, and more. Designed for both desktop and mobile users, it offers a clean, intuitive interface to stay up to date with the football world.
 
-🌐 **Live site**: [https://livesports-six.vercel.app](https://livesports-six.vercel.app)
+🌐 **Live site**: [https://cubesports.vercel.app](https://cubesports.vercel.app)
 
 ---
 
@@ -85,7 +85,7 @@ npm start	Start the production server
 
 🔒 Data & API
 
-    The app pulls live football data using a backend API service (you can specify the provider if public).
+    The app pulls live football data using a backend API service ().
 
     No sensitive data is exposed on the frontend.
 
