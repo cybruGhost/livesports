@@ -1,0 +1,212 @@
+/* Match-specific styles */
+.match-card {
+  @apply relative overflow-hidden rounded-xl border border-white/5 bg-gradient-to-b from-card to-card/80 backdrop-blur-sm transition-all duration-300;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.05) inset, 0 0 20px
+    rgba(255, 0, 85, 0.1);
+}
+
+.match-card:hover {
+  @apply transform -translate-y-1 border-primary/20;
+  box-shadow: 0 15px 40px -5px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.05) inset, 0 0 30px
+    rgba(255, 0, 85, 0.15);
+}
+
+.match-card .match-header {
+  @apply flex items-center justify-between mb-4 p-2 bg-white/5 rounded-lg transition-colors duration-300;
+}
+
+.match-card:hover .match-header {
+  @apply bg-white/10;
+}
+
+.match-card .match-header .category {
+  @apply text-muted-foreground text-sm font-semibold uppercase tracking-wider opacity-90 transition-all duration-300;
+}
+
+.match-card:hover .match-header .category {
+  @apply text-white opacity-100;
+}
+
+.match-card .match-header .live-text {
+  @apply text-primary text-sm font-semibold uppercase tracking-wider;
+}
+
+.match-card .match-header .date {
+  @apply text-muted-foreground text-sm font-medium italic opacity-80 transition-all duration-300;
+}
+
+.match-card:hover .match-header .date {
+  @apply text-white opacity-100;
+}
+
+/* Premium Button Styles */
+.premium-button {
+  @apply relative overflow-hidden rounded-lg bg-gradient-to-r from-primary to-primary/80 text-white font-medium py-2 px-4 transition-all duration-300;
+  box-shadow: 0 4px 10px -2px rgba(220, 38, 38, 0.5);
+}
+
+.premium-button:hover {
+  @apply transform -translate-y-0.5;
+  box-shadow: 0 6px 15px -3px rgba(220, 38, 38, 0.6);
+}
+
+.premium-button:active {
+  @apply transform translate-y-0;
+  box-shadow: 0 2px 5px -1px rgba(220, 38, 38, 0.6);
+}
+
+.premium-button::after {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-0 transition-opacity duration-500;
+  transform: translateX(-100%);
+}
+
+.premium-button:hover::after {
+  @apply opacity-100;
+  transform: translateX(100%);
+  transition: transform 0.8s ease, opacity 0.3s ease;
+}
+
+/* Glass Panel */
+.glass-panel {
+  @apply bg-card/70 backdrop-blur-md border border-white/10 rounded-xl;
+}
+
+/* Shimmer Effect */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.05) 20%,
+    rgba(255, 255, 255, 0.1) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Live Indicator Animation */
+.live-indicator {
+  @apply inline-flex h-2 w-2 rounded-full bg-primary;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+}
+
+/* Hero Section */
+.hero-section {
+  @apply relative overflow-hidden;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url("/images/hero-bg.jpg") no-repeat
+    center center;
+  background-size: cover;
+}
+
+.hero-section::before {
+  content: "";
+  @apply absolute inset-0 bg-gradient-to-r from-primary/30 to-blue-900/30 mix-blend-overlay;
+}
+
+/* Glow Effects */
+.glow-text {
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.5);
+}
+
+.glow-border {
+  box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+}
+
+/* Calendar specific styles */
+.calendar-modal .rdp {
+  margin: 0;
+}
+
+.calendar-modal .rdp-months {
+  display: flex;
+  justify-content: center;
+}
+
+.calendar-modal .rdp-month {
+  margin: 0;
+}
+
+.calendar-modal .rdp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.calendar-modal .rdp-head_cell {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: rgb(156 163 175);
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.calendar-modal .rdp-cell {
+  text-align: center;
+  position: relative;
+}
+
+.calendar-modal .rdp-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.375rem;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.calendar-modal .rdp-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.calendar-modal .rdp-button_selected {
+  background-color: rgb(239 68 68);
+  color: white;
+}
+
+.calendar-modal .rdp-button_today {
+  background-color: rgba(239 68 68, 0.2);
+  font-weight: bold;
+}
+
+.calendar-modal .rdp-day_outside {
+  color: rgb(107 114 128);
+  opacity: 0.5;
+}
+
+.calendar-modal .rdp-day_disabled {
+  color: rgb(107 114 128);
+  opacity: 0.3;
+  cursor: not-allowed;
+}
