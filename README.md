@@ -6,7 +6,10 @@
 ## ⚽ TO FIX- LOADING TYM AND FETCHING
 🌐 **Live site**: [https://cubesports.vercel.app](https://cubesports.vercel.app)
 
+also. [cubesportsnetlifysite](https://cubesports.netlify.app)
+
 ---
+
 
 ## ⚽ Live Features
 
