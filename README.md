@@ -1,5 +1,16 @@
 # 🏟️ CubeSports - Real-Time Football Web App
 #SOON TO FIX
+---
+
+## ❤️ Support The Cube
+
+If you enjoy our work and want to support development, you can buy us a coffee ☕  
+
+👉 **[ko-fi.com/anonghost40418](https://ko-fi.com/anonghost40418)**
+
+Every bit of support helps keep The Cube growing 🚀  
+
+---
 [![Page Views](https://komarev.com/ghpvc/?username=cybruGhost&repo=livesports&color=brightgreen)](https://github.com/cybruGhost/livesports)
 
 **CubeSports** is a responsive web application built with **Next.js** for delivering **real-time football data**, including live scores, match fixtures, league standings, and more. Designed for both desktop and mobile users, it offers a clean, intuitive interface to stay up to date with the football world.
