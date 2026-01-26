@@ -1,4 +1,6 @@
 # 🏟️ CubeSports - Real-Time Football Web App
+bettersite
+https://cubesports.netlify.app/
 #SOON TO FIX
 ---
 
