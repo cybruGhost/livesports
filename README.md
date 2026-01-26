@@ -1,9 +1,9 @@
 # 🏟️ CubeSports - Real-Time Football Web App
-bettersite
-https://cubesports.netlify.app/
+
 #SOON TO FIX
 ---
 
+https://cubesports.netlify.app/
 ## ❤️ Support The Cube
 
 If you enjoy our work and want to support development, you can buy us a coffee ☕  
