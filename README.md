@@ -3,7 +3,7 @@
 #SOON TO FIX
 ---
 
-https://cubesports.netlify.app/
+[CUBE SPORTS LINK](https://thecub4.vercel.app/Cubesports)
 ## ❤️ Support The Cube
 
 If you enjoy our work and want to support development, you can buy us a coffee ☕  
@@ -18,9 +18,9 @@ Every bit of support helps keep The Cube growing 🚀
 **CubeSports** is a responsive web application built with **Next.js** for delivering **real-time football data**, including live scores, match fixtures, league standings, and more. Designed for both desktop and mobile users, it offers a clean, intuitive interface to stay up to date with the football world.
 ## ⚽Will FIX- LOADING TYM AND FETCHING
 
-🌐 **Live site**: [https://cubesports.vercel.app](https://cubesports.vercel.app)
+🌐 **Live site**: [https://thecub4.vercel.app/Cubesports](https://thecub4.vercel.app/Cubesports)
 
-also. [cubesportsnetlifysite](https://cubesports.netlify.app)
+
 
 ---
 
