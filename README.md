@@ -1,4 +1,3 @@
-````markdown
 # 🏟️ CubeSports — Real-Time Football Web App
 
 [🌐 Live Demo](https://thecub4.vercel.app/Cubesports)
