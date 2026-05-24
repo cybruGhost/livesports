@@ -7,6 +7,7 @@ CubeSports is a modern football web application built with **Next.js** that deli
 Designed for both desktop and mobile users, CubeSports keeps football fans connected with clean navigation, smooth performance, and live match coverage.
 
 ---
+note the code here isnt what i have on the live link , i will update the codes soon
 
 ## ⚡ Features
 
