@@ -134,7 +134,7 @@ No sensitive user data is exposed on the frontend.
 
 If you enjoy the project and want to support development:
 
-☕ https://ko-fi.com/anonghost40418
+☕[https://cyberghost-shop.fourthwall.com](https://cyberghost-shop.fourthwall.com)
 
 Every contribution helps improve CubeSports 🚀
 
