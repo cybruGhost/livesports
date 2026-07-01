@@ -1,18 +1,25 @@
-# 🏟️ CubeSports — Real-Time Football Web App
+# 🏟️ CubeSports — Real-Time Football Stats & Highlights Web App
 
 [🌐 Live SITE](https://thecub4.vercel.app/Cubesports)
 
-CubeSports is a modern football web application built with **Next.js** that delivers real-time football updates including live scores, fixtures, standings, and club statistics in a fast and responsive interface.
+CubeSports is a modern football web application built with **Next.js** that delivers real-time football **data** — live scores, fixtures, standings, club statistics, and match highlights — in a fast, clean, responsive interface.
+
+> ℹ️ **CubeSports does not stream or rebroadcast live match video.** It is a scores-and-stats companion app: real-time data updates, post-match highlight clips, and league information sourced from public football data APIs. For full match broadcasts, please use an official licensed broadcaster in your region.
+
 <img width="641" height="311" alt="Screenshot 2026-07-01 203454" src="https://github.com/user-attachments/assets/f86df4eb-3f2a-4314-b14a-2b882a268b1c" />
 
-Designed for both desktop and mobile users, CubeSports keeps football fans connected with clean navigation, smooth performance, and live match coverage.
+Designed for both desktop and mobile users, CubeSports keeps football fans connected with clean navigation, smooth performance, and up-to-the-minute match data.
 
 ---
-note the code here isnt what i have on the live link , i will update the codes soon
+
+📝 *Note: the code in this repo isn't yet what's on the live link — I'll be updating it soon.*
+
+---
 
 ## ⚡ Features
 
-- 📺 **Live Scores** — Real-time football match updates.
+- 📊 **Live Score Updates** — Real-time score and match-event data (not video).
+- 🎬 **Highlights** — Key match moments and clips after games conclude.
 - 🗓️ **Fixtures** — Upcoming matches by league and date.
 - 🏆 **League Standings** — Premier League, La Liga, Serie A, and more.
 - 🧑‍🤝‍🧑 **Team Insights** — Club information and stats.
@@ -28,7 +35,7 @@ note the code here isnt what i have on the live link , i will update the codes s
 | Framework | Next.js |
 | Language | JavaScript |
 | Styling | Custom CSS |
-| Data Source | Football API |
+| Data Source | Football data API (scores, fixtures, standings, highlights metadata) |
 | Deployment | Vercel |
 
 ---
@@ -53,26 +60,22 @@ livesports/
 ## 🚀 Getting Started
 
 ### 1️⃣ Clone the Repository
-
 ```bash
 git clone https://github.com/cybruGhost/livesports.git
 cd livesports
 ```
 
 ### 2️⃣ Install Dependencies
-
 ```bash
 npm install --legacy-peer-deps
 ```
 
 ### 3️⃣ Run Development Server
-
 ```bash
 npm run dev
 ```
 
 Open:
-
 ```bash
 http://localhost:3000
 ```
@@ -113,12 +116,15 @@ http://localhost:3000
 
 ## 🔒 Data & API
 
-CubeSports uses football data APIs to provide:
+CubeSports uses third-party football data APIs to provide:
 
-- Live match data
-- Fixtures
+- Real-time score updates
+- Fixtures and schedules
 - League standings
 - Team information
+- Post-match highlight clips (where made available by the data provider)
+
+CubeSports does **not** host, proxy, or rebroadcast live video streams of matches. All video/highlight content displayed is sourced from and hosted by third-party providers via their APIs; CubeSports only surfaces metadata and embeds/links provided by those services.
 
 No sensitive user data is exposed on the frontend.
 
@@ -148,4 +154,3 @@ Contributions are welcome.
 ## 📜 License
 
 This project is licensed under the MIT License.
-````
