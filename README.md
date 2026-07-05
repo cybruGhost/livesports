@@ -1,5 +1,5 @@
 # 🏟️ CubeSports — Real-Time Football Stats & Highlights Web App
-
+  THIS PROJECT IS ACTIVE
 [🌐 Live SITE](https://thecub4.vercel.app/Cubesports)
 
 CubeSports is a modern football web application built with **Next.js** that delivers real-time football **data** — live scores, fixtures, standings, club statistics, and match highlights — in a fast, clean, responsive interface.
