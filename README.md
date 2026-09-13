@@ -2,6 +2,8 @@
   THIS PROJECT IS ACTIVE
 [🌐 Live SITE](https://thecub4.vercel.app/Cubesports)
 
+we back
+
 CubeSports is a modern football web application built with **Next.js** that delivers real-time football **data** — live scores, fixtures, standings, club statistics, and match highlights — in a fast, clean, responsive interface.
 
 > ℹ️ **CubeSports does not stream or rebroadcast live match video.** It is a scores-and-stats companion app: real-time data updates, post-match highlight clips, and league information sourced from public football data APIs. For full match broadcasts, please use an official licensed broadcaster in your region.
