@@ -133,9 +133,7 @@ No sensitive user data is exposed on the frontend.
 ## ❤️ Support The Cube
 
 If you enjoy the project and want to support development:
-
-☕[https://cyberghost-shop.fourthwall.com](https://cyberghost-shop.fourthwall.com)
-
+thecub.netlify.app
 Every contribution helps improve CubeSports 🚀
 
 ---
