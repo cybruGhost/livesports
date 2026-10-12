@@ -46,4 +46,3 @@ The live version may contain features and improvements not yet available in this
 
 ---
 
-Made with ❤️ by [CyberGhost](https://github.com/cybruGhost)
