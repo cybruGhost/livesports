@@ -37,13 +37,10 @@ CubeSports is an independent project and is not affiliated with any football lea
 
 ## 📝 Development
 
-This project is actively maintained.
+.
 
 The live version may contain features and improvements not yet available in this repository.
 
-## ❤️ Support
-
-Enjoying CubeSports? Support future development and explore my other projects.
 
 🌐 [CyberGhost Projects](https://thecub.netlify.app/)
 
